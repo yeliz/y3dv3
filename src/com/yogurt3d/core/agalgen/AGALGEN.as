@@ -842,12 +842,12 @@ package com.yogurt3d.core.agalgen
 		/**************************************************************************
 		 *	GLSL: REFLECT FUNC vers2: 2 * dot(N, L) * N - L
 		 **************************************************************************/
-		public function reflectionVector(_target:*, _view:*, _normal:*):String{
+		public function reflectionVector(_target:*, _normal:*, _light:*):String{
 			var result:String = [
-				code("dp3",_target.x,_view, _normal),			// dot(V, N) 
-				code("add",_target.x,_target.x,_target.x),		// 2 * dot(V, n) 
-				code("mul",_target, _target.x, _normal),		// 2 * dot(N, I) * N
-				code("sub",_target, _target, _view)			// 2 * dot(N, I) * N - L
+				code("dp3",_target.x,_normal, _light),			// dot(V, N) 
+				code("add",_target.x,_target.x,_target.x),		// 2 * dot(V, N) 
+				code("mul",_target, _target.x, _normal),		// 2 * dot(N, N) * N
+				code("sub",_target, _target, _light)			// 2 * dot(N, V) * N - V
 				
 			].join("\n");
 			return result;

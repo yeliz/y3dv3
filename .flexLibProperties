@@ -26,8 +26,10 @@
     <classEntry path="com.yogurt3d.core.lights.Light"/>
     <classEntry path="com.yogurt3d.core.lights.RenderableLight"/>
     <classEntry path="com.yogurt3d.core.managers.DependencyManager"/>
+    <classEntry path="com.yogurt3d.core.managers.DeviceStreamManager"/>
     <classEntry path="com.yogurt3d.core.managers.IDManager"/>
     <classEntry path="com.yogurt3d.core.managers.InputManager"/>
+    <classEntry path="com.yogurt3d.core.managers.MaterialManager"/>
     <classEntry path="com.yogurt3d.core.managers.PickManager"/>
     <classEntry path="com.yogurt3d.core.managers.ProgramManager"/>
     <classEntry path="com.yogurt3d.core.managers.SceneTreeManager"/>
@@ -71,6 +73,10 @@
     <classEntry path="com.yogurt3d.core.render.renderer.IRenderer"/>
     <classEntry path="com.yogurt3d.core.render.renderer.PickRenderer"/>
     <classEntry path="com.yogurt3d.core.render.renderer.PostProcessRenderer"/>
+    <classEntry path="com.yogurt3d.core.render.renderqueue.RenderQueue"/>
+    <classEntry path="com.yogurt3d.core.render.renderqueue.RenderQueueNode"/>
+    <classEntry path="com.yogurt3d.core.render.renderqueue.RenderQueueNodePool"/>
+    <classEntry path="com.yogurt3d.core.render.renderqueue.SubRenderQueue"/>
     <classEntry path="com.yogurt3d.core.render.texture.RenderCubeTexture"/>
     <classEntry path="com.yogurt3d.core.render.texture.RenderDepthTexture"/>
     <classEntry path="com.yogurt3d.core.render.texture.RenderTexture"/>
@@ -212,6 +218,8 @@
     <classEntry path="com.yogurt3d.presets.setup.BasicSetup"/>
     <classEntry path="com.yogurt3d.presets.setup.FreeFlightSetup"/>
     <classEntry path="com.yogurt3d.presets.setup.TargetSetup"/>
+    <classEntry path="com.yogurt3d.presets.material.yogurtistanv2.MaterialYogurtistanLocationV2"/>
+    <classEntry path="com.yogurt3d.presets.material.yogurtistanv2.YogurtistanPassLocationV2"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

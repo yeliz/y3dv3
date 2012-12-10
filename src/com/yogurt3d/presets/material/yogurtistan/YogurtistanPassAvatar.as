@@ -158,12 +158,12 @@ package com.yogurt3d.presets.material.yogurtistan
 			device.setProgramConstantsFromVector( Context3DProgramType.FRAGMENT, m_constants["cameraPos"].register.index, m_constants["cameraPos"].callFunction() );
 			
 			// set textureConstants
-			device.setTextureAt(m_constants["gradient"].register.index, m_gradient.getTextureForDevice(device) );
-			device.setTextureAt(m_constants["colorMap"].register.index, m_colorMap.getTextureForDevice(device) );
-			device.setTextureAt(m_constants["specMap"].register.index, m_specularMap.getTextureForDevice(device) );
-			device.setTextureAt(m_constants["rimMask"].register.index, m_rimMask.getTextureForDevice(device) );
-			device.setTextureAt(m_constants["specMask"].register.index, m_specularMask.getTextureForDevice(device) );
-			device.setTextureAt(m_constants["emissiveMask"].register.index, m_emmisiveMask.getTextureForDevice(device) );
+			m_vsManager.setTexture(device, m_constants["gradient"].register.index, m_gradient.getTextureForDevice(device) );
+			m_vsManager.setTexture(device, m_constants["colorMap"].register.index, m_colorMap.getTextureForDevice(device) );
+			m_vsManager.setTexture(device, m_constants["specMap"].register.index, m_specularMap.getTextureForDevice(device) );
+			m_vsManager.setTexture(device, m_constants["rimMask"].register.index, m_rimMask.getTextureForDevice(device) );
+			m_vsManager.setTexture(device, m_constants["specMask"].register.index, m_specularMask.getTextureForDevice(device) );
+			m_vsManager.setTexture(device, m_constants["emissiveMask"].register.index, m_emmisiveMask.getTextureForDevice(device) );
 		
 		}
 		
@@ -177,8 +177,9 @@ package com.yogurt3d.presets.material.yogurtistan
 			device.setProgramConstantsFromMatrix(Context3DProgramType.VERTEX, gen.VC["ViewProjection"].index, m, true );
 						
 			m_currentCamera = _camera;
-			
+			m_vsManager.markTexture(device);
 			uploadConstants(device);
+			m_vsManager.sweepTexture(device);
 		}
 		
 		public override function render(_object:SceneObjectRenderable, _light:Light, _device:Context3D, _camera:Camera3D):void{
@@ -195,6 +196,7 @@ package com.yogurt3d.presets.material.yogurtistan
 			
 			preRender(_device, _object, _camera);
 			
+			m_vsManager.markVertex(_device);
 			var _mesh:IMesh = _object.geometry;
 			for( var submeshindex:uint = 0; submeshindex < _mesh.subMeshList.length; submeshindex++ )
 			{
@@ -224,7 +226,7 @@ package com.yogurt3d.presets.material.yogurtistan
 		
 				_device.drawTriangles(subMesh.getIndexBufferByContext3D(_device), 0, subMesh.triangleCount);
 			}
-			
+			m_vsManager.sweepVertex(_device);
 			postRender(_device);
 		}
 		
@@ -325,7 +327,7 @@ package com.yogurt3d.presets.material.yogurtistan
 				
 			].join("\n");
 				
-			trace(gen.printCode( code ));
+		//	trace(gen.printCode( code ));
 			
 			return ShaderUtils.vertexAssambler.assemble(Context3DProgramType.VERTEX, code, false );
 		}
@@ -458,8 +460,8 @@ package com.yogurt3d.presets.material.yogurtistan
 
 			].join("\n");
 			
-			trace(gen.printCode( code ));
-			return ShaderUtils.vertexAssambler.assemble(Context3DProgramType.FRAGMENT, code, false );
+	//		trace(gen.printCode( code ));
+			return ShaderUtils.fragmentAssambler.assemble(Context3DProgramType.FRAGMENT, code, false );
 		}
 		
 		

@@ -185,16 +185,16 @@ package com.yogurt3d.core.material.pass
 				if( !m_materialManager.hasProgram( _object.material, this, _object.geometry.type ) )
 				{
 					m_program = new Y3DProgram();
-					
+					trace( _object.material,  _object.geometry.type);
 					m_program.fragment = getFragmentShader(_light);
-					m_program.vertex = getVertexShader( _object.geometry.type == "SkinnedMesh");
+					m_program.vertex = getVertexShader( (_object.geometry.type.indexOf("AnimatedGPUMesh") != -1));
 					m_program.program = device.createProgram();
 					m_program.program.upload( m_program.vertex, m_program.fragment );	
 					m_materialManager.cacheProgram(_object.material, this, _object.geometry.type, m_program);
 				}else{
 					m_program = m_materialManager.getProgram(_object.material, this, _object.geometry.type);
 					getFragmentShader(_light);
-					getVertexShader( _object.geometry.type == "SkinnedMesh");
+					getVertexShader((_object.geometry.type.indexOf("AnimatedGPUMesh") != -1));
 				}
 			}
 			return m_program;
@@ -532,9 +532,9 @@ package com.yogurt3d.core.material.pass
 			code+=gen.code("m44",screenPos, worldPos, gen.VC["ViewProjection"])+"\n";
 			code+=gen.code("mov","op", screenPos)+"\n";
 			
-			trace("VERTEX SHADER");
-			trace( code );
-			trace("END VERTEX SHADER");
+//			trace("VERTEX SHADER");
+//			trace( code );
+//			trace("END VERTEX SHADER");
 			
 			return com.yogurt3d.core.utils.ShaderUtils.vertexAssambler.assemble(Context3DProgramType.VERTEX, code, false );
 		}
@@ -621,9 +621,9 @@ package com.yogurt3d.core.material.pass
 			code += "\n//Move result to output\n";
 			code += "mov oc " + gen.FT["result"];
 			
-			trace("FRAGMENT SHADER");
-			trace(code);
-			trace("END FRAGMENT SHADER");
+//			trace("FRAGMENT SHADER");
+//			trace(code);
+//			trace("END FRAGMENT SHADER");
 			
 			return ShaderUtils.vertexAssambler.assemble(Context3DProgramType.FRAGMENT, code, false );
 		}

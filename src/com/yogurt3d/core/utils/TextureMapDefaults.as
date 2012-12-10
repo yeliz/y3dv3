@@ -29,6 +29,8 @@ package com.yogurt3d.core.utils
 	{
 		private static var m_checkerBoard		:ITexture;
 		private static var m_white				:TextureMap;
+		private static var m_whitemipmap		:TextureMap;
+		private static var m_blackmipmap		:TextureMap;
 		private static var m_black				:TextureMap;
 		private static var m_blackCube			:CubeTextureMap;
 		
@@ -96,19 +98,39 @@ package com.yogurt3d.core.utils
 			}
 			return m_blackCube;
 		}
-		
 		public static function get WHITE():TextureMap{
-		//	if( m_white == null )
-		//	{
+			if( m_white == null )
+			{
 				m_white = new TextureMap(new BitmapData(1, 1, false, 0xFFFFFF));
-		//	}
+			//	m_white.mipmap = true;
+			}
 			return m_white;
 		}
+		
+		public static function get WHITEMIPMAP():TextureMap{
+			if( m_whitemipmap == null )
+			{
+				m_whitemipmap = new TextureMap(new BitmapData(1, 1, false, 0xFFFFFF));
+				m_whitemipmap.mipmap = true;
+			}
+			return m_whitemipmap;
+		}
+		
+		public static function get BLACKMIPMAP():TextureMap{
+			if( m_blackmipmap == null )
+			{
+				m_blackmipmap = new TextureMap(new BitmapData(1, 1, false, 0x000000));
+				m_blackmipmap.mipmap = true;
+			}
+			return m_blackmipmap;
+		}
+		
 		public static function get BLACK():TextureMap{
-		//	if( m_black == null )
-		//	{
+			if( m_black == null )
+			{
 				m_black = new TextureMap(new BitmapData(1, 1, false, 0x000000));
-		//	}
+			//	m_white.mipmap = true;
+			}
 			return m_black;
 		}
 	}

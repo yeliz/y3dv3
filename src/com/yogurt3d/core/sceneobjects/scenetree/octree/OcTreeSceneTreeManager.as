@@ -240,7 +240,7 @@ package com.yogurt3d.core.sceneobjects.scenetree.octree
 				
 				camera.frustum.boundingSphere.YOGURT3D_INTERNAL::m_center = camera.transformation.matrixGlobal.transformVector(camera.frustum.m_bSCenterOrginal);
 				
-				s_octantByScene[_scene].list = listOfVisibilityTesterByScene[_scene][_camera];
+				//s_octantByScene[_scene].list = listOfVisibilityTesterByScene[_scene][_camera];
 				
 				s_octantByScene[_scene].visibilityProcess( _camera, _renderQueue );
 				

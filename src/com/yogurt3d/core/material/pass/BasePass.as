@@ -84,9 +84,9 @@ package com.yogurt3d.core.material.pass
 			code += "\n//Move result to output\n";
 			code += "mov oc " + gen.FT["result"];
 			
-			trace("FRAGMENT SHADER");
-			trace(code);
-			trace("END FRAGMENT SHADER");
+//			trace("FRAGMENT SHADER");
+//			trace(code);
+//			trace("END FRAGMENT SHADER");
 			
 			return ShaderUtils.vertexAssambler.assemble(Context3DProgramType.FRAGMENT, code, false );
 	

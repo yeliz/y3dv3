@@ -43,12 +43,17 @@ package com.yogurt3d.core.render.renderqueue
 		}
 		
 		public function get object():RenderQueueNode{
-			return m_pool[m_len--];
+			var i:int = m_len--;
+			
+			var tmp:RenderQueueNode = m_pool[i];
+		//	trace("RenderQueuPool [g]", i);
+			return tmp;
 		}
 		
 		public function set object( value:RenderQueueNode ):void{
 			value.next = null;
 			value.scn = null;
+		//	trace("RenderQueuPool [r]", m_len);
 			m_pool[m_len++] = value;
 		}
 	}

@@ -71,7 +71,7 @@ package com.yogurt3d.core.render.renderqueue
 		}
 		
 		public function addRenderable( scnObj:SceneObjectRenderable ):void{
-			if( scnObj.visible == false || scnObj.material == null ) return;
+			if(scnObj == null || scnObj.visible == false || scnObj.material == null ) return;
 			if( !m_renderLayerSubQueueIndex.hasOwnProperty(scnObj.renderLayer ) )
 			{
 				addSubRenderQueue(new SubRenderQueue(), scnObj.renderLayer);
@@ -117,8 +117,12 @@ package com.yogurt3d.core.render.renderqueue
 		}
 		
 		public function getNodeAt( index:uint ):RenderQueueNode{
-			for( var i:int = 0, count:uint = 0; (count = m_subQueues[i].count) < index; i++, index -= count ){}
-			return m_subQueues[i].YOGURT3D_INTERNAL::getNodeAt( index );
+			if(index != 0){
+				for( var i:int = 0, count:uint = 0; (count = m_subQueues[i].count) < index; i++, index -= count ){}
+				return m_subQueues[i].YOGURT3D_INTERNAL::getNodeAt( index );
+			}
+			else
+				return getHead();
 		}
 		
 		public function getHead():RenderQueueNode{

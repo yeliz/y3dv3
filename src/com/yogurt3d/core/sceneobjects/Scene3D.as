@@ -149,18 +149,18 @@ package com.yogurt3d.core.sceneobjects
 		{
 			var polyLen:uint = 0;
 		
-			if( m_renderQueue.getRenderableCount() > 0 )
-			{
-				var head:RenderQueueNode;
-				head = m_renderQueue.getHead();
-				
-				while( head )
-				{
-					var obj:SceneObjectRenderable = head.scn;
-					polyLen += obj.geometry.triangleCount;
-					head = head.next;
-				}
-			}
+//			if( m_renderQueue.getRenderableCount() > 0 )
+//			{
+//				var head:RenderQueueNode;
+//				head = m_renderQueue.getHead();
+//				
+//				while( head )
+//				{
+//					var obj:SceneObjectRenderable = head.scn;
+//					polyLen += obj.geometry.triangleCount;
+//					head = head.next;
+//				}
+//			}
 			return polyLen;
 		}
 		
@@ -180,6 +180,7 @@ package com.yogurt3d.core.sceneobjects
 		 * */
 		public function removeChild(_value:SceneObject):SceneObject
 		{
+		//	m_renderQueue.clear();
 			SceneTreeManager.removeChild(_value, m_rootObject);
 			return _value;
 		}

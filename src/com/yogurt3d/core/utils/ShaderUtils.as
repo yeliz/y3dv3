@@ -302,9 +302,9 @@ package com.yogurt3d.core.utils
 		public static function reflectionVector(_target:String, _light:String, _normal:String):String{
 			
 			var code:String = [
-				agal("dp3",_target,_normal, _light),// dot(N, I) 
-				agal("add",_target,_target,_target),// 2 * dot(N, I) 
-				agal("mul",_target, _target, _normal),// 2 * dot(N, I) * N
+				agal("dp3",_target,_normal, _light),// dot(N, L) 
+				agal("add",_target,_target,_target),// 2 * dot(N, L) 
+				agal("mul",_target, _target, _normal),// 2 * dot(N, L) * N
 				agal("sub",_target,_target, _light)// 2 * dot(N, I) * N - L
 				
 			].join("\n");
