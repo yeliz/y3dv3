@@ -17,31 +17,57 @@ package com.yogurt3d.presets.material.yogurtistan
 												  _emmisiveMask:TextureMap=null,
 												  _colorMap:TextureMap=null,
 												  _specularMap:TextureMap=null,
-												  _rimMask:TextureMap=null,
-												  _specularMask:TextureMap=null,
-												  _color:Color=null,
-												  _ks:Number=1.0,//if texture is used for ks, default=-1
-												  _kr:Number=1.0,
-												  _blendConstant:Number=1.5,
+												  _shinenessMask:TextureMap=null,
+												  _specularColor:Color=null,
+												  _specular:Number=1.0,
+												  _shineness:Number=1.0,
+												  _rimShineness:Number=1.0,
+												  _rim:Number=1.0,
+												  _blendConstant:Number=1.0,
 												  _fspecPower:Number=1.0,
 												  _fRimPower:Number=2.0,
-												  _kRim:Number=1.0, 
-												  _kSpec:Number=1.0,
 												  _opacity:Number=1.0)
 		{
 			super(false);
 			
-			m_pass = new YogurtistanPassAvatar(_gradient, _emmisiveMask, 
-				_colorMap, _specularMap, _rimMask, _specularMask, _color, _ks, 
-				_kr, _blendConstant, _fspecPower, _fRimPower, _kRim, _kSpec, _opacity);	
+			m_pass = new YogurtistanPassAvatar(_gradient,
+				_emmisiveMask,_colorMap,
+				_specularMap,_shinenessMask,_specularColor,
+				_specular,_shineness,
+				_rimShineness,_rim,
+				_blendConstant,_fspecPower,
+				_fRimPower,_opacity);	
 			
 		}
 		
-		public function set spVal(_value:Number):void{
-			m_pass.spVal = _value;
+		public function get gradient():TextureMap
+		{
+			return m_pass.gradient;
 		}
-		public function get spVal():Number{
-			return m_pass.spVal;
+				
+		public function set gradient(value:TextureMap):void
+		{
+			m_pass.gradient = value;	
+		}
+		
+		public function get colorMap():TextureMap
+		{
+			return m_pass.colorMap;
+		}
+				
+		public function set colorMap(value:TextureMap):void
+		{
+			m_pass.colorMap = value;	
+		}
+		
+		public function get shinenessMask():TextureMap
+		{
+			return m_pass.shinenessMask;
+		}
+		
+		public function set shinenessMask(value:TextureMap):void
+		{
+			m_pass.shinenessMask = value;
 		}
 		
 		public function get emmisiveMask():TextureMap
@@ -54,16 +80,6 @@ package com.yogurt3d.presets.material.yogurtistan
 			m_pass.emmisiveMask = value;
 		}
 		
-		public function get colorMap():TextureMap
-		{
-			return m_pass.colorMap;
-		}
-		
-		public function set colorMap(value:TextureMap):void
-		{
-			m_pass.colorMap = value;	
-		}
-		
 		public function get specularMap():TextureMap
 		{
 			return m_pass.specularMap;
@@ -73,101 +89,68 @@ package com.yogurt3d.presets.material.yogurtistan
 		{
 			m_pass.specularMap = value;
 		}
-				
-		public function get gradient():TextureMap
+
+
+		public function get specular():Number{
+			return m_pass.specular;
+		}
+		
+		public function set specular(_value:Number):void{
+			m_pass.specular = _value;
+		}
+		
+		public function get specColor():Color
 		{
-			return m_pass.gradient;
+			return m_pass.specColor;
 		}
 		
-		public function set gradient(value:TextureMap):void
+		public function set specColor(value:Color):void
 		{
-			m_pass.gradient = value;	
+			m_pass.specColor = value;
 		}
 		
-		public function get specularMask():TextureMap
-		{
-			return m_pass.specularMask;
+		public function get rim():Number{
+			return m_pass.rim;
 		}
 		
-		public function set specularMask(value:TextureMap):void
-		{
-			m_pass.specularMask = value;
-			
+		public function set rim(value:Number):void{
+			m_pass.rim = value;
 		}
 		
-		public function get rimMask():TextureMap
-		{
-			return m_pass.rimMask;
+		public function get rimShineness():Number{
+			return m_pass.rimShineness;
 		}
 		
-		public function set rimMask(value:TextureMap):void
-		{
-			m_pass.rimMask = value;
-			
+		public function set rimShineness(value:Number):void{
+			m_pass.rimShineness = value;
 		}
 		
-		public function get ksColor():Number{
-			return m_pass.ksColor;
+		public function get shineness():Number{
+			return m_pass.shineness;
 		}
 		
-		public function set ksColor(value:Number):void{
-			m_pass.ksColor = value;
-		}
-		
-		public function get krColor():Number{
-			return m_pass.krColor;
-		}
-		
-		public function set krColor(value:Number):void{
-			m_pass.krColor = value;
+		public function set shineness(_value:Number):void{
+			m_pass.shineness = _value;
 		}
 		
 		public function get fRimPower():Number
 		{
 			return m_pass.fRimPower;
 		}
-		
+				
 		public function set fRimPower(value:Number):void
 		{
 			m_pass.fRimPower = value;
-		}
-		
-		public function get kRim():Number{
-			return m_pass.kRim;
-		}
-		
-		public function set kRim(value:Number):void{
-			m_pass.kRim = value;
 		}
 		
 		public function get fspecPower():Number
 		{
 			return m_pass.fspecPower;
 		}
-		
+				
 		public function set fspecPower(value:Number):void
 		{
 			m_pass.fspecPower = value;
-		}
-		
-		public function get kSpec():Number
-		{
-			return m_pass.kSpec;
-		}
-		
-		public function set kSpec(value:Number):void
-		{
-			m_pass.kSpec = value;
-		}
-		
-		public function get color():Color
-		{
-			return m_pass.color;
-		}
-		
-		public function set color(value:Color):void
-		{
-			m_pass.color = value;
 		}
 		
 		public function get blendConstant():Number{

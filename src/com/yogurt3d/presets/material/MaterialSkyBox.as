@@ -70,8 +70,6 @@ class SkyBoxPass extends Pass{
 		
 		m_surfaceParams.blendEnabled 		= false;
 		m_surfaceParams.blendMode 			= EBlendMode.NORMAL;
-		
-		
 		m_surfaceParams.writeDepth 			= false;
 		m_surfaceParams.depthFunction 		= Context3DCompareMode.ALWAYS;
 		
@@ -103,8 +101,9 @@ class SkyBoxPass extends Pass{
 		m.append( _camera.frustum.projectionMatrix );
 		
 		m_currentCamera = _camera;
-		
+		m_vsManager.markTexture(device);
 		uploadConstants(device);
+		m_vsManager.sweepTexture(device);
 	}
 	
 	public override function getVertexShader(isSkeletal:Boolean):ByteArray{
