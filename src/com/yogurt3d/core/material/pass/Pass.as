@@ -180,24 +180,25 @@ package com.yogurt3d.core.material.pass
 		}
 		
 		public function getProgram(device:Context3D, _object:SceneObjectRenderable, _light:Light ):Y3DProgram{
-			if( m_program == null )
+			if( m_program == null || !m_materialManager.hasProgram( _object.material, this, _object.geometry.type ))
 			{
 				if( !m_materialManager.hasProgram( _object.material, this, _object.geometry.type ) )
 				{
 					m_program = new Y3DProgram();
-					trace( _object.material,  _object.geometry.type);
+				//	trace("PASS CREATED", _object.material, this,  _object.geometry.type);
 					m_program.fragment = getFragmentShader(_light);
 					m_program.vertex = getVertexShader( (_object.geometry.type.indexOf("AnimatedGPUMesh") != -1));
 					m_program.program = device.createProgram();
 					m_program.program.upload( m_program.vertex, m_program.fragment );	
 					m_materialManager.cacheProgram(_object.material, this, _object.geometry.type, m_program);
 				}else{
+			//		trace("PASS GET PROGRAM", _object.material, this,  _object.geometry.type);
 					m_program = m_materialManager.getProgram(_object.material, this, _object.geometry.type);
 					getFragmentShader(_light);
 					getVertexShader((_object.geometry.type.indexOf("AnimatedGPUMesh") != -1));
 				}
 			}
-			return m_program;
+			return m_materialManager.getProgram(_object.material, this, _object.geometry.type);
 		}
 		
 		private function getDirectionalIndex(_lights:Vector.<Light>):int{

@@ -37,6 +37,8 @@ package com.yogurt3d.core.render.renderer
 			
 			scene.preRender(camera);
 			
+			if(scene.skyBox){scene.skyBox.material.render(scene.skyBox, null , device, camera );}
+			
 			var _renderableSet:RenderQueue = scene.getRenderableSet();
 			if( _renderableSet.getRenderableCount()>0 )
 			{
@@ -55,11 +57,10 @@ package com.yogurt3d.core.render.renderer
 							}
 						}
 					}
-					var obj:SceneObjectRenderable = head.scn;
-					
+					var obj:SceneObjectRenderable = head.scn;			
 					var _material:MaterialBase = obj.material;
-					
-					if (!_material) { trace("Renderable object with no material");	continue;}	
+		
+					if (!_material) { trace("[Y3D DefaultRenderer]@render: Renderable object with no material");	continue;}	
 					
 					_material.render(obj, scene.getIntersectedLightsByCamera(camera), device, camera );
 					head = head.next;

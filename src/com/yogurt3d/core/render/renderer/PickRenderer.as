@@ -24,6 +24,8 @@ package com.yogurt3d.core.render.renderer
 	import com.yogurt3d.core.geoms.SubMesh;
 	import com.yogurt3d.core.geoms.interfaces.IMesh;
 	import com.yogurt3d.core.managers.DeviceStreamManager;
+	import com.yogurt3d.core.managers.MaterialManager;
+	import com.yogurt3d.core.material.Y3DProgram;
 	import com.yogurt3d.core.namespaces.YOGURT3D_INTERNAL;
 	import com.yogurt3d.core.objects.EngineObject;
 	import com.yogurt3d.core.render.renderqueue.RenderQueue;
@@ -83,6 +85,7 @@ package com.yogurt3d.core.render.renderer
 		private var m_localHitPosition				:Vector3D;
 		
 		private var m_lastVertexBufferLength		:uint = 0;
+		protected static var m_materialManager:MaterialManager = MaterialManager.instance;
 		
 		public function PickRenderer(_initInternals:Boolean=true)
 		{
@@ -147,7 +150,7 @@ package com.yogurt3d.core.render.renderer
 			var _vertexBuffer:VertexBuffer3D;
 			var submeshlen:uint;
 			var subMeshIndex:uint;
-			var program:Program3D;
+			var program:Y3DProgram;
 			var _submesh:SubMesh;
 			
 			var boneIndex:int;
@@ -197,9 +200,7 @@ package com.yogurt3d.core.render.renderer
 			for(var i:int = 0;  head != null; i++, head = head.next )
 			{
 				_renderableObject = head.scn;
-				
-				// if picking is disabled for object skip
-			//	trace("Picking enabled", _renderableObject, _renderableObject.pickEnabled, _renderableObject.interactive);
+		
 				if( !_renderableObject.interactive ) continue;
 			
 				if( _renderableObject.geometry == null ) continue;
@@ -229,14 +230,15 @@ package com.yogurt3d.core.render.renderer
 					_submesh = _renderableObject.geometry.subMeshList[subMeshIndex];
 					
 					// get program// Hit Object
-					program = shader.getProgram( device, _renderableObject, null ).program;
-					
-					if( program != m_lastProgram )
+					program = shader.getProgram( device, _renderableObject, null );
+				
+					// get program
+					if( program != m_materialManager.YOGURT3D_INTERNAL::m_lastProgram)
 					{
-						// set program
-						device.setProgram( program );
-						m_lastProgram = program;
+						device.setProgram( program.program);
+						m_materialManager.YOGURT3D_INTERNAL::m_lastProgram = program;
 					}
+					
 					// set vertex streams
 					
 					vsManager.markVertex(device);
@@ -262,7 +264,9 @@ package com.yogurt3d.core.render.renderer
 							originalBoneIndex = SkinnedSubMesh(_submesh).originalBoneIndex[boneIndex];
 							m_tempMatrix.copyFrom( SkeletalAnimatedMesh(_renderableObject.geometry).bones[originalBoneIndex].transformationMatrix );
 							device.setProgramConstantsFromVector( Context3DProgramType.VERTEX, shader.gen.VC["BoneMatrices"].index + (boneIndex*3), m_tempMatrix.rawData, 3 );
+							vsManager.sweepVertex(device);
 						}
+						
 					}
 					vsManager.sweepVertex(device);
 					// draw
@@ -291,7 +295,7 @@ package com.yogurt3d.core.render.renderer
 				(_renderableSet.getNodeAt( selectedIndex - 1).scn).interactive ){
 				
 				m_lastHit = _renderableSet.getNodeAt( selectedIndex - 1).scn;
-		//		trace("Selected ",selectedIndex, m_lastHit);
+//			/	trace("Selected ",selectedIndex, m_lastHit);
 				
 			}else{
 				m_lastHit = null;
@@ -351,15 +355,14 @@ package com.yogurt3d.core.render.renderer
 				{
 					_submesh = _renderableObject.geometry.subMeshList[subMeshIndex];
 					
+					program = shaderTriangle.getProgram( device, _renderableObject, null );
 					// get program
-					program = shaderTriangle.getProgram( device, _renderableObject, null ).program;
-					
-					if( program != m_lastProgram )
+					if( program != m_materialManager.YOGURT3D_INTERNAL::m_lastProgram)
 					{
-						// set program
-						device.setProgram( program );
-						m_lastProgram = program;
+						device.setProgram( program.program);
+						m_materialManager.YOGURT3D_INTERNAL::m_lastProgram = program;
 					}
+				
 					// set vertex streams
 					// position
 					vsManager.markVertex(device);
@@ -369,8 +372,8 @@ package com.yogurt3d.core.render.renderer
 					if( _submesh is SkinnedSubMesh )
 					{
 						// bone data
-						var skinnedSubmesh:SkinnedSubMesh = _submesh as SkinnedSubMesh;
-						var buffer:VertexBuffer3D = skinnedSubmesh.getBoneDataBufferByContext3D(device);
+						skinnedSubmesh = _submesh as SkinnedSubMesh;
+						buffer = skinnedSubmesh.getBoneDataBufferByContext3D(device);
 						vsManager.setStream( device,  shaderTriangle.vertexInput.boneData.index,   buffer, 0, Context3DVertexBufferFormat.FLOAT_4 );
 						vsManager.setStream( device,  shaderTriangle.vertexInput.boneData.index+1, buffer, 4, Context3DVertexBufferFormat.FLOAT_4 );
 						vsManager.setStream( device,  shaderTriangle.vertexInput.boneData.index+2, buffer, 8, Context3DVertexBufferFormat.FLOAT_4 );
@@ -410,12 +413,15 @@ package com.yogurt3d.core.render.renderer
 }
 import com.yogurt3d.core.agalgen.IRegister;
 import com.yogurt3d.core.lights.Light;
+import com.yogurt3d.core.material.Y3DProgram;
 import com.yogurt3d.core.material.parameters.FragmentInput;
 import com.yogurt3d.core.material.parameters.VertexInput;
 import com.yogurt3d.core.material.parameters.VertexOutput;
 import com.yogurt3d.core.material.pass.Pass;
+import com.yogurt3d.core.sceneobjects.SceneObjectRenderable;
 import com.yogurt3d.core.utils.ShaderUtils;
 
+import flash.display3D.Context3D;
 import flash.display3D.Context3DCompareMode;
 import flash.display3D.Context3DProgramType;
 import flash.display3D.Context3DTriangleFace;
@@ -437,6 +443,27 @@ class PassHitObject extends Pass{
 		gen.createFC("SIndex");
 	}
 	
+//	public override function getProgram(device:Context3D, _object:SceneObjectRenderable, _light:Light ):Y3DProgram{
+//		if( m_program == null )
+//		{
+//			if( !m_materialManager.hasProgram( _object.material, this, _object.geometry.type ) )
+//			{
+//				m_program = new Y3DProgram();
+//				trace("PASS", _object.material,  _object.geometry.type);
+//				m_program.fragment = getFragmentShader(_light);
+//				m_program.vertex = getVertexShader( (_object.geometry.type.indexOf("AnimatedGPUMesh") != -1));
+//				m_program.program = device.createProgram();
+//				m_program.program.upload( m_program.vertex, m_program.fragment );	
+//				m_materialManager.cacheProgram(_object.material, this, _object.geometry.type, m_program);
+//			}else{
+//				m_program = m_materialManager.getProgram(_object.material, this, _object.geometry.type);
+//				getFragmentShader(_light);
+//				getVertexShader((_object.geometry.type.indexOf("AnimatedGPUMesh") != -1));
+//			}
+//		}
+//		return m_program;
+//	}
+//	
 	public override function getVertexShader(isSkeletal:Boolean):ByteArray{
 		var input:VertexInput = m_vertexInput = new VertexInput(gen);
 		var out:VertexOutput = m_vertexOutput;

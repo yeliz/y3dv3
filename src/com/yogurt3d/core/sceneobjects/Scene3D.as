@@ -149,18 +149,18 @@ package com.yogurt3d.core.sceneobjects
 		{
 			var polyLen:uint = 0;
 		
-//			if( m_renderQueue.getRenderableCount() > 0 )
-//			{
-//				var head:RenderQueueNode;
-//				head = m_renderQueue.getHead();
-//				
-//				while( head )
-//				{
-//					var obj:SceneObjectRenderable = head.scn;
-//					polyLen += obj.geometry.triangleCount;
-//					head = head.next;
-//				}
-//			}
+			if( m_renderQueue.getRenderableCount() > 0 )
+			{
+				var head:RenderQueueNode;
+				head = m_renderQueue.getHead();
+				
+				while( head )
+				{
+					var obj:SceneObjectRenderable = head.scn;
+					polyLen += obj.geometry.triangleCount;
+					head = head.next;
+				}
+			}
 			return polyLen;
 		}
 		
@@ -180,7 +180,7 @@ package com.yogurt3d.core.sceneobjects
 		 * */
 		public function removeChild(_value:SceneObject):SceneObject
 		{
-		//	m_renderQueue.clear();
+		
 			SceneTreeManager.removeChild(_value, m_rootObject);
 			return _value;
 		}
@@ -309,14 +309,14 @@ package com.yogurt3d.core.sceneobjects
 		}
 		public function set skyBox(_value:SkyBox):void
 		{
-			if( m_skyBox != null )
-			{
-				//remove from scene
-				removeChild( m_skyBox );
-			}
+//			if( m_skyBox != null )
+//			{
+//				//remove from scene
+//				removeChild( m_skyBox );
+//			}
 			m_skyBox = _value;
-			if( m_skyBox )
-				SceneTreeManager.addChild( m_skyBox, m_rootObject );
+//			if( m_skyBox )
+//				SceneTreeManager.addChild( m_skyBox, m_rootObject , 1000);
 		}
 		
 		YOGURT3D_INTERNAL function addRenderTarget( value:RenderTextureTargetBase ):void{
