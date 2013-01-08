@@ -18,9 +18,7 @@
 
 package com.yogurt3d.core.material
 {
-	import com.yogurt3d.core.agalgen.AGALGEN;
-	import com.yogurt3d.core.agalgen.IRegister;
-	import com.yogurt3d.core.material.parameters.LightInput;
+	
 
 	public class LightFunctions
 	{

@@ -43,9 +43,10 @@ package com.yogurt3d.presets.effects
 	}
 }
 import com.adobe.AGALMiniAssembler;
+import com.yogurt3d.core.Scene3D;
 import com.yogurt3d.core.render.post.EffectBase;
 import com.yogurt3d.core.render.post.PostProcessingEffectBase;
-import com.yogurt3d.core.utils.ShaderUtils;
+import com.yogurt3d.utils.ShaderUtils;
 
 import flash.display3D.Context3DProgramType;
 import flash.display3D.textures.TextureBase;
@@ -69,7 +70,7 @@ internal class FilterGammaCorrection extends EffectBase
 		m_gamma = _value;
 	}
 	
-	public override function setEffectParameters(_rect:Rectangle, _sampler:TextureBase):void{
+	public override function setEffectParameters(_rect:Rectangle, _sampler:TextureBase, _scene:Scene3D):void{
 		device.setTextureAt( 0, _sampler);
 		device.setProgramConstantsFromVector(Context3DProgramType.FRAGMENT, 0,  Vector.<Number>([1/m_gamma, 0.5, 0.0, 1.0]));
 	}

@@ -23,7 +23,7 @@ package com.yogurt3d.io.parsers
 	import com.yogurt3d.core.geoms.SkeletalAnimatedMeshBase;
 	import com.yogurt3d.core.geoms.SkinnedSubMesh;
 	import com.yogurt3d.core.geoms.SubMesh;
-	import com.yogurt3d.core.namespaces.YOGURT3D_INTERNAL;
+	import com.yogurt3d.YOGURT3D_INTERNAL;
 	
 	import flash.utils.Dictionary;
 	

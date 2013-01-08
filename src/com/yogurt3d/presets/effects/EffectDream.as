@@ -33,8 +33,9 @@ package com.yogurt3d.presets.effects
 	}
 }
 import com.adobe.AGALMiniAssembler;
+import com.yogurt3d.core.Scene3D;
 import com.yogurt3d.core.render.post.EffectBase;
-import com.yogurt3d.core.utils.ShaderUtils;
+import com.yogurt3d.utils.ShaderUtils;
 
 import flash.display3D.Context3DProgramType;
 import flash.display3D.textures.TextureBase;
@@ -49,7 +50,7 @@ internal class FilterDream extends EffectBase
 		super();		
 	}
 	
-	public override function setEffectParameters(_rect:Rectangle, _sampler:TextureBase):void{
+	public override function setEffectParameters(_rect:Rectangle, _sampler:TextureBase, _scene:Scene3D):void{
 			device.setTextureAt( 0, _sampler);
 			device.setProgramConstantsFromVector(Context3DProgramType.FRAGMENT, 0,  Vector.<Number>([0.001, 0.003, 0.005, 0.007]));
 			device.setProgramConstantsFromVector(Context3DProgramType.FRAGMENT, 1,  Vector.<Number>([0.009, 0.011, 3.0, 9.5]));

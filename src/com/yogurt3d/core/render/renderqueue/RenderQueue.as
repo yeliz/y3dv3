@@ -21,7 +21,7 @@ package com.yogurt3d.core.render.renderqueue
 	import com.yogurt3d.Yogurt3D;
 	import com.yogurt3d.core.managers.IDManager;
 	import com.yogurt3d.core.material.MaterialBase;
-	import com.yogurt3d.core.namespaces.YOGURT3D_INTERNAL;
+	import com.yogurt3d.YOGURT3D_INTERNAL;
 	import com.yogurt3d.core.objects.EngineObject;
 	import com.yogurt3d.core.sceneobjects.SceneObjectRenderable;
 	

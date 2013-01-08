@@ -18,11 +18,11 @@
 
 package com.yogurt3d.presets.geometry
 {
+	import com.yogurt3d.YOGURT3D_INTERNAL;
+	import com.yogurt3d.core.geoms.IMesh;
 	import com.yogurt3d.core.geoms.Mesh;
 	import com.yogurt3d.core.geoms.SubMesh;
-	import com.yogurt3d.core.geoms.interfaces.IMesh;
-	import com.yogurt3d.core.namespaces.YOGURT3D_INTERNAL;
-	import com.yogurt3d.core.utils.MatrixUtils;
+	import com.yogurt3d.utils.MatrixUtils;
 	
 	import flash.geom.Matrix3D;
 	import flash.geom.Vector3D;
